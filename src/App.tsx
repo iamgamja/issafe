@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { Check } from './components/Check'
+import { data } from './data'
 
 function App() {
   const [input, setInput] = useState('0')
@@ -34,7 +35,11 @@ function App() {
 
       <input value={input} onChange={(e) => setInput(e.target.value)} autoFocus></input>
 
-      <Check n={num} limit={256} />
+      <>
+        {Object.entries(data).map(([name, limit]) => (
+          <Check name={name} n={num} limit={limit} />
+        ))}
+      </>
     </div>
   )
 }

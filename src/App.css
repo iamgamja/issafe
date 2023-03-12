@@ -40,3 +40,19 @@
 .read-the-docs {
   color: #888;
 }
+
+.check {
+  width: 10rem;
+  padding: 1rem 3rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.3rem 0 #aaaaaa;
+}
+
+.safe {
+  background: limegreen;
+}
+
+.unsafe {
+  background: tomato;
+}
