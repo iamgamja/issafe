@@ -40,3 +40,27 @@
 .read-the-docs {
   color: #888;
 }
+
+.check {
+  width: 10rem;
+  padding: 1rem 3rem;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.3rem 0 #aaaaaa;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 30rem;
+}
+
+.safe {
+  background: limegreen;
+}
+
+.unsafe {
+  background: tomato;
+}
