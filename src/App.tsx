@@ -31,13 +31,13 @@ function App() {
 
   return (
     <div className="App">
-      <h3>Is {num.toLocaleString('ko')} Safe Integer?</h3>
+      <h3>Is {num.toLocaleString('ko')} Safe?</h3>
 
       <input value={input} onChange={(e) => setInput(e.target.value)} autoFocus></input>
 
       <>
         {Object.entries(data).map(([name, limit]) => (
-          <Check name={name} n={num} limit={limit} />
+          <Check name={name} n={typeof num === 'number' ? null : num} min={limit[0]} max={limit[1]} />
         ))}
       </>
     </div>
