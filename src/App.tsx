@@ -1,43 +1,69 @@
 import { useState } from 'react'
 import './App.css'
-import { Check } from './components/Check'
+import { create, all } from 'mathjs'
+import Decimal from 'decimal.js'
 import { data } from './data'
+import { Check } from './components/Check'
+
+const math = create(all)
+const limitedEvaluate = math.evaluate
+
+math.config({
+  number: 'BigNumber',
+  precision: 64,
+  epsilon: 1e-60,
+})
+
+math.import(
+  {
+    import: function () {
+      throw new Error('Function import is disabled')
+    },
+    createUnit: function () {
+      throw new Error('Function createUnit is disabled')
+    },
+    evaluate: function () {
+      throw new Error('Function evaluate is disabled')
+    },
+    parse: function () {
+      throw new Error('Function parse is disabled')
+    },
+    simplify: function () {
+      throw new Error('Function simplify is disabled')
+    },
+    derivative: function () {
+      throw new Error('Function derivative is disabled')
+    },
+  },
+  { override: true }
+)
 
 function App() {
   const [input, setInput] = useState('0')
+
   const num = (() => {
     // 쉼표, 공백, 작은따옴표를 무시
     const replaced_string = input.replaceAll(/[, ']/g, '')
+    if (!replaced_string) return new Decimal(0)
 
-    // 지수 표기법 (e.g. 1e9) 처리
-    if (input.includes('e')) {
-      try {
-        const [a, b] = replaced_string.split('e').map(BigInt)
-        return a * 10n ** b
-      } catch (e) {
-        if (e instanceof SyntaxError || e instanceof RangeError) return NaN
-        throw e
-      }
-    }
-
-    // bigint로 변환
     try {
-      return BigInt(replaced_string)
+      const res = limitedEvaluate(replaced_string)
+      if (!(res instanceof Decimal)) return new Decimal(NaN)
+      return res
     } catch (e) {
-      if (e instanceof SyntaxError) return NaN
-      throw e
+      return new Decimal(NaN)
     }
   })()
 
   return (
     <div className="App">
-      <h3>Is {num.toLocaleString('ko')} Safe?</h3>
+      <h3>Is {num.toNearest(0.001).toString()} Safe?</h3>
 
       <input value={input} onChange={(e) => setInput(e.target.value)} autoFocus></input>
 
       <>
-        {Object.entries(data).map(([name, limit]) => (
-          <Check name={name} n={typeof num === 'number' ? null : num} min={limit[0]} max={limit[1]} />
+        {Object.entries(data).map(([name, limit], i) => (
+          <Check key={i} name={name} n={num} min={limit[0]} max={limit[1]} />
         ))}
       </>
     </div>

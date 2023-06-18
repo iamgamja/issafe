@@ -1,7 +1,9 @@
+import Decimal from 'decimal.js'
+
 /** [a, b]: a <= x <= b */
 export const data = {
-  int: [-2147483648n, 2147483647n],
-  'unsigned int': [0n, 4294967295n],
-  'long long': [-9223372036854775808n, 9223372036854775807n],
-  'unsigned long long': [0n, 18446744073709551615n],
+  int: [new Decimal('-2147483648'), new Decimal('2147483647')],
+  'unsigned int': [new Decimal('0'), new Decimal('4294967295')],
+  'long long': [new Decimal('-9223372036854775808'), new Decimal('9223372036854775807')],
+  'unsigned long long': [new Decimal('0'), new Decimal('18446744073709551615')],
 } as const
