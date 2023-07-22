@@ -39,7 +39,7 @@ math.import(
 )
 
 function App() {
-  const [input, setInput] = useState('0')
+  const [input, setInput] = useState('')
 
   const num = (() => {
     // 쉼표, 공백, 작은따옴표를 무시
@@ -57,7 +57,8 @@ function App() {
 
   return (
     <div className="App">
-      <h3>Is {num.toNearest(0.001).toString()} Safe?</h3>
+      <h3>{num.toNearest(0.001).toString()}</h3>
+      <h4>{num.div(100000000).toNearest(0.001).toString()}s</h4>
 
       <input value={input} onChange={(e) => setInput(e.target.value)} autoFocus></input>
 
